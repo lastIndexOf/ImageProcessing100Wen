@@ -14,7 +14,7 @@ def hist_equal(img, z_max=255):
 	for i in range(1, 255):
 		ind = np.where(img == i)
 		sum_h += len(img[ind])
-		z_prime = z_max / S * sum_h
+		z_prime = 100 * sum_h / S
 		out[ind] = z_prime
 
 	out = out.astype(np.uint8)

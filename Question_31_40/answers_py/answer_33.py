@@ -32,6 +32,8 @@ def dft(img):
 				#        v += gray[n, m] * np.exp(-2j * np.pi * (m * k / M + n * l / N))
 				#G[l, k] = v / np.sqrt(M * N)
 
+	plt.imshow(20*np.log(np.abs(G)))
+	plt.show()
 	return G
 
 # IDFT
@@ -94,7 +96,7 @@ def lpf(G, ratio=0.5):
 
 
 # Read image
-img = cv2.imread("imori.jpg").astype(np.float32)
+img = cv2.imread("../imori.jpg").astype(np.float32)
 H, W, C = img.shape
 
 # Gray scale
@@ -104,12 +106,12 @@ gray = bgr2gray(img)
 G = dft(img)
 
 # LPF
-G = lpf(G)
+# G = lpf(G)
 
-# IDFT
-out = idft(G)
+# # IDFT
+# out = idft(G)
 
-# Save result
-cv2.imshow("result", out)
-cv2.waitKey(0)
-cv2.imwrite("out.jpg", out)
+# # Save result
+# cv2.imshow("result", out)
+# cv2.waitKey(0)
+# cv2.imwrite("out.jpg", out)

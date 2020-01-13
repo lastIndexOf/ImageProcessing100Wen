@@ -2,12 +2,20 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
+import os
+from os import path
+
+cwd = os.getcwd()
+dirname = path.join(cwd, path.dirname(__file__))
+
 # DCT hyoer-parameter
 T = 8
 K = 8
 channel = 3
 
 # DCT weight
+
+
 def w(x, y, u, v):
     cu = 1.
     cv = 1.
@@ -16,9 +24,11 @@ def w(x, y, u, v):
     if v == 0:
         cv /= np.sqrt(2)
     theta = np.pi / (2 * T)
-    return (( 2 * cu * cv / T) * np.cos((2*x+1)*u*theta) * np.cos((2*y+1)*v*theta))
+    return ((2 * cu * cv / T) * np.cos((2*x+1)*u*theta) * np.cos((2*y+1)*v*theta))
 
 # DCT
+
+
 def dct(img):
     H, W, _ = img.shape
 
@@ -31,7 +41,8 @@ def dct(img):
                     for u in range(T):
                         for y in range(T):
                             for x in range(T):
-                                F[v+yi, u+xi, c] += img[y+yi, x+xi, c] * w(x,y,u,v)
+                                F[v+yi, u+xi, c] += img[y+yi,
+                                                        x+xi, c] * w(x, y, u, v)
 
     return F
 
@@ -49,7 +60,8 @@ def idct(F):
                     for x in range(T):
                         for v in range(K):
                             for u in range(K):
-                                out[y+yi, x+xi, c] += F[v+yi, u+xi, c] * w(x,y,u,v)
+                                out[y+yi, x+xi, c] += F[v+yi,
+                                                        u+xi, c] * w(x, y, u, v)
 
     out = np.clip(out, 0, 255)
     out = np.round(out).astype(np.uint8)
@@ -57,17 +69,18 @@ def idct(F):
     return out
 
 
-
 # Read image
-img = cv2.imread("imori.jpg").astype(np.float32)
+img = cv2.imread(path.join(dirname, '../imori.jpg')).astype(np.float32)
 
 # DCT
 F = dct(img)
 
+print(F)
+print(F.shape)
+
 # IDCT
 out = idct(F)
+print(out)
 
 # Save result
-cv2.imshow("result", out)
-cv2.waitKey(0)
 cv2.imwrite("out.jpg", out)

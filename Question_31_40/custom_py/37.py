@@ -53,4 +53,4 @@ if __name__ == '__main__':
 
     dct_img = dip.dct(img)
     idct_img = dip.idct(dct_img)
-    cv2.imwrite(path.join(dirname, './imori_out36.jpg'), idct_img)
+    cv2.imwrite(path.join(dirname, './imori_out37.jpg'), idct_img)

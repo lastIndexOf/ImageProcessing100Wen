@@ -59,3 +59,4 @@ if __name__ == '__main__':
 
     out = dip.hpf(img)
     cv2.imwrite(path.join(dirname, './imori_out34.jpg'), out)
+

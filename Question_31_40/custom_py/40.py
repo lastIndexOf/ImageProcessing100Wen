@@ -54,9 +54,6 @@ class DIP:
             (ycbcr[:, :, 1] - 128.) * 0.3441 - (ycbcr[:, :, 2] - 128.) * 0.7139
         out[:, :, 0] = ycbcr[:, :, 0] + (ycbcr[:, :, 1] - 128.) * 1.7718
 
-        out = np.clip(out, 0, 255)
-        out = out.astype(np.uint8)
-
         return out
 
     def dct(self, img):
@@ -71,9 +68,9 @@ class DIP:
     def idct(self, img):
         out = np.zeros(img.shape)
 
-        out = self.__idct(img[:, :, 2], key='Y')
-        out = self.__idct(img[:, :, 1], key='Cb')
-        out = self.__idct(img[:, :, 0], key='Cr')
+        out[:, :, 2] = self.__idct(img[:, :, 2], key='Y')
+        out[:, :, 1] = self.__idct(img[:, :, 1], key='Cb')
+        out[:, :, 0] = self.__idct(img[:, :, 0], key='Cr')
 
         return out
 
@@ -98,6 +95,9 @@ class DIP:
                 out[x:x+T, y:y +
                     T] = cv2.idct(self.__quantization(img[x:x+T, y:y+T], key))
 
+        out = np.clip(out, 0, 255)
+        out = np.round(out).astype(np.uint8)
+
         return out
 
     def __quantization(self, img, key):
@@ -115,4 +115,8 @@ if __name__ == '__main__':
     ycbcr_dct = dip.dct(ycbcr)
     ycbcr_idct = dip.idct(ycbcr_dct)
     out = dip.YCBCR2RGB(ycbcr_idct)
-    cv2.imwrite(path.join(dirname, './imori_out40.jpg'), out)
+
+    img2 = dip.dct(img)
+    out2 = dip.idct(img2)
+    cv2.imwrite(path.join(dirname, './imori_out1_40.jpg'), out)
+    cv2.imwrite(path.join(dirname, './imori_out2_40.jpg'), out2)

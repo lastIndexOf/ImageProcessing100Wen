@@ -94,7 +94,7 @@ def Canny_step1(img):
 		out_h = out_h[pad : pad + H, pad : pad + W].astype(np.uint8)
 
 		return out_v, out_h
-
+™
 
 	def get_edge_angle(fx, fy):
 		# get edge strength
@@ -122,8 +122,9 @@ def Canny_step1(img):
 	gray = BGR2GRAY(img)
 
 	# gaussian filtering
+	print(gray)
 	gaussian = gaussian_filter(gray, K_size=5, sigma=1.4)
-
+	print(gaussian)
 	# sobel filtering
 	fy, fx = sobel_filter(gaussian, K_size=3)
 
@@ -137,7 +138,7 @@ def Canny_step1(img):
 
 
 # Read image
-img = cv2.imread("imori.jpg").astype(np.float32)
+img = cv2.imread("../imori.jpg").astype(np.float32)
 
 # Canny (step1)
 edge, angle = Canny_step1(img)
